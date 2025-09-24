@@ -1,6 +1,9 @@
-package com.anjox.order.api.config;
+package com.anjox.order.notification.notification.service.config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,10 +20,20 @@ public class RabbitMQConfig {
 
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
+    @Value("${rabbitmq.queue.name}")
+    private String queue;
+
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange(exchange);
+    }
+    @Bean
+    public Queue queue() {
+        return new Queue(queue, true);
+    }
 
     @Bean
-    public Exchange exchange() {
-        return new FanoutExchange(exchange);
+    public Binding binding() {
+        return BindingBuilder.bind(queue()).to(fanoutExchange());
     }
 
     @Bean
@@ -41,7 +54,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public ApplicationListener<ApplicationReadyEvent> applicationReadyEventApplicationListener(RabbitAdmin rabbitAdmin) {
+    public ApplicationListener<ApplicationReadyEvent> AplicationReadyEventApplicationListener(RabbitAdmin rabbitAdmin) {
         return event -> rabbitAdmin.initialize();
     }
 }
