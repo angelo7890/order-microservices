@@ -93,4 +93,17 @@ public class OrderModel {
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
+
+    @Override
+    public String toString() {
+        return "OrderModel{" +
+                "id=" + id +
+                ", client='" + client + '\'' +
+                ", items=" + items +
+                ", totalPrice=" + totalPrice +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                ", orderDate=" + orderDate +
+                '}';
+    }
 }
