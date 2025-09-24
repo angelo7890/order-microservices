@@ -51,7 +51,7 @@ public class RabbitMQConfig {
     public Queue queue() {
         return new Queue(queue, true);
     }
-    
+
     @Bean
     public Binding binding(Queue queue, FanoutExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange);
