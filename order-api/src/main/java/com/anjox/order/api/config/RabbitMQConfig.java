@@ -1,7 +1,6 @@
 package com.anjox.order.api.config;
 
-import org.springframework.amqp.core.Exchange;
-import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,9 +17,11 @@ public class RabbitMQConfig {
 
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
+    @Value("${rabbitmq.queue.name}")
+    private String queue;
 
     @Bean
-    public Exchange exchange() {
+    public FanoutExchange exchange() {
         return new FanoutExchange(exchange);
     }
 
@@ -44,5 +45,15 @@ public class RabbitMQConfig {
     @Bean
     public ApplicationListener<ApplicationReadyEvent> applicationReadyEventApplicationListener(RabbitAdmin rabbitAdmin) {
         return event -> rabbitAdmin.initialize();
+    }
+
+    @Bean
+    public Queue queue() {
+        return new Queue(queue, true);
+    }
+    
+    @Bean
+    public Binding binding(Queue queue, FanoutExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange);
     }
 }

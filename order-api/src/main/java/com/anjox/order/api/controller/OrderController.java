@@ -1,6 +1,7 @@
 package com.anjox.order.api.controller;
 
 import com.anjox.order.api.model.OrderModel;
+import com.anjox.order.api.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/order")
 public class OrderController {
 
+    private final OrderService orderService;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
     private final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @Operation(summary = "Cria um novo pedido",
@@ -31,6 +36,6 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderModel order) {
         logger.info("pedido recebido: {}", order.toString());
-        return ResponseEntity.status(HttpStatus.CREATED).body(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.enqueue(order));
     }
 }
