@@ -1,4 +1,4 @@
-﻿package com.anjox.order.api.model;
+package com.anjox.order.api.model;
 
 import com.anjox.order.api.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,21 +22,19 @@ public class OrderModel {
 
     private String email;
 
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.IN_PROCESSING;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDate =  LocalDateTime.now();
 
     public OrderModel() {
     }
 
-    public OrderModel(UUID id, String client, List<OrderedItemModel> items, BigDecimal totalPrice, String email, OrderStatus status, LocalDateTime orderDate) {
-        this.id = id;
+    public OrderModel(String client, List<OrderedItemModel> items, BigDecimal totalPrice, String email, LocalDateTime orderDate) {
         this.client = client;
         this.items = items;
         this.totalPrice = totalPrice;
         this.email = email;
-        this.status = status;
         this.orderDate = orderDate;
     }
 

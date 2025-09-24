@@ -1,4 +1,4 @@
-﻿package com.anjox.order.api.model;
+package com.anjox.order.api.model;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -13,8 +13,7 @@ public class ProductModel {
     public ProductModel() {
     }
 
-    public ProductModel(UUID id, String name, BigDecimal price) {
-        this.id = id;
+    public ProductModel(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }

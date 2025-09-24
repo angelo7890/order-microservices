@@ -1,4 +1,4 @@
-﻿package com.anjox.order.api.enums;
+package com.anjox.order.api.enums;
 
 public enum OrderStatus {
 

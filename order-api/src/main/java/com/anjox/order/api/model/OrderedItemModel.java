@@ -1,4 +1,4 @@
-﻿package com.anjox.order.api.model;
+package com.anjox.order.api.model;
 
 import java.util.UUID;
 
@@ -12,8 +12,7 @@ public class OrderedItemModel {
 
     public OrderedItemModel() {
     }
-    public OrderedItemModel(UUID id, ProductModel product, int quantity) {
-        this.id = id;
+    public OrderedItemModel(ProductModel product, int quantity) {
         this.product = product;
         this.quantity = quantity;
     }
