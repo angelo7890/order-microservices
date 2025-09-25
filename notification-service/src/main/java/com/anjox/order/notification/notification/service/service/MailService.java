@@ -1,9 +1,13 @@
 package com.anjox.order.notification.notification.service.service;
 
 import com.anjox.order.notification.notification.service.model.OrderModel;
-import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.mail.SimpleMailMessage;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,14 +16,23 @@ public class MailService {
     public MailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
+    Logger logger = LoggerFactory.getLogger(MailService.class);
+
+    @Value("${spring.mail.username}")
+    private String emailSender;
 
     public void sendNotification(OrderModel order) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("Order-api");
-        message.setTo(order.getEmail());
-        message.setSubject("order");
-        message.setText(this.generateMessage(order));
-        mailSender.send(message);
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setFrom(new InternetAddress(emailSender, "Order API"));
+            helper.setTo(order.getEmail());
+            helper.setSubject("Order");
+            helper.setText(generateMessage(order), false);
+            mailSender.send(mimeMessage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     private String generateMessage(OrderModel order) {
