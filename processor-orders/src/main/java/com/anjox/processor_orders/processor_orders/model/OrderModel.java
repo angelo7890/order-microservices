@@ -1,6 +1,7 @@
 package com.anjox.processor_orders.processor_orders.model;
 import com.anjox.processor_orders.processor_orders.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,33 +9,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table(name = "orders")
 public class OrderModel {
 
+    @Id
     private UUID id =  UUID.randomUUID();
 
     private String client;
 
+    @OneToMany(mappedBy = "order")
     private List<OrderedItemModel> items = new ArrayList<>();
 
-
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
     private String email;
 
-    private OrderStatus status = OrderStatus.IN_PROCESSING;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
+    @Column(name = "order_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime orderDate =  LocalDateTime.now();
 
     public OrderModel() {
     }
 
-    public OrderModel(String client, List<OrderedItemModel> items, BigDecimal totalPrice, String email, LocalDateTime orderDate) {
+    public OrderModel(UUID id, String client, List<OrderedItemModel> items, BigDecimal totalPrice, String email, OrderStatus status) {
+        this.id = id;
         this.client = client;
         this.items = items;
         this.totalPrice = totalPrice;
         this.email = email;
-        this.orderDate = orderDate;
+        this.status = status;
     }
 
     public UUID getId() {

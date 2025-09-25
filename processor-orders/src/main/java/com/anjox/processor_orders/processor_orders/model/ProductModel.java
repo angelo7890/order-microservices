@@ -1,9 +1,16 @@
 package com.anjox.processor_orders.processor_orders.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Entity
+@Table(name = "product")
 public class ProductModel {
+    @Id
    private UUID id = UUID.randomUUID();
 
    private String name;

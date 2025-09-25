@@ -1,14 +1,23 @@
 package com.anjox.processor_orders.processor_orders.model;
 
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
+@Table(name = "item_order")
 public class OrderedItemModel {
 
+    @Id
     private UUID id =  UUID.randomUUID();
 
+    @ManyToOne
     private ProductModel product;
 
     private int quantity;
+
+    @ManyToOne
+    private OrderModel order;
 
     public OrderedItemModel() {
     }

@@ -21,7 +21,7 @@ public class OrderModel {
 
     private String email;
 
-    private OrderStatus status = OrderStatus.IN_PROCESSING;
+    private OrderStatus status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime orderDate =  LocalDateTime.now();
@@ -29,12 +29,13 @@ public class OrderModel {
     public OrderModel() {
     }
 
-    public OrderModel(String client, List<OrderedItemModel> items, BigDecimal totalPrice, String email, LocalDateTime orderDate) {
+    public OrderModel(UUID id, String client, List<OrderedItemModel> items, BigDecimal totalPrice, String email, OrderStatus status) {
+        this.id = id;
         this.client = client;
         this.items = items;
         this.totalPrice = totalPrice;
         this.email = email;
-        this.orderDate = orderDate;
+        this.status = status;
     }
 
     public UUID getId() {
