@@ -1,4 +1,4 @@
-﻿package com.anjox.processor_orders.processor_orders.repository;
+package com.anjox.processor_orders.processor_orders.repository;
 
 import com.anjox.processor_orders.processor_orders.model.ProductModel;
 import org.springframework.data.jpa.repository.JpaRepository;
