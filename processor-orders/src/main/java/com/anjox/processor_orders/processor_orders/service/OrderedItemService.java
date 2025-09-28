@@ -1,4 +1,4 @@
-﻿package com.anjox.processor_orders.processor_orders.service;
+package com.anjox.processor_orders.processor_orders.service;
 
 import com.anjox.processor_orders.processor_orders.model.OrderModel;
 import com.anjox.processor_orders.processor_orders.model.OrderedItemModel;

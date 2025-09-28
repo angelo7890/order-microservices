@@ -1,5 +1,6 @@
-﻿package com.anjox.processor_orders.processor_orders.service;
+package com.anjox.processor_orders.processor_orders.service;
 
+import com.anjox.processor_orders.processor_orders.enums.OrderStatus;
 import com.anjox.processor_orders.processor_orders.model.OrderModel;
 import com.anjox.processor_orders.processor_orders.repository.OrderRepository;
 import org.slf4j.Logger;
@@ -23,6 +24,9 @@ public class OrderService {
     }
 
     public void save(OrderModel orderModel) {
+
+        //setando pedido como processado
+        orderModel.setStatus(OrderStatus.PROCESSED);
 
         //salvando os produtos
         productService.save(orderModel.getItems());
