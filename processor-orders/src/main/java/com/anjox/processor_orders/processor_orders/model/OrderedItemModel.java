@@ -49,4 +49,12 @@ public class OrderedItemModel {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public OrderModel getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderModel order) {
+        this.order = order;
+    }
 }
