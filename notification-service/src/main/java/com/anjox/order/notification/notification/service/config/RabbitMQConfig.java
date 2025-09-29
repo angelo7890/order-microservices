@@ -1,9 +1,6 @@
 package com.anjox.order.notification.notification.service.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,23 +15,54 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.exchange.name}")
-    private String exchange;
-    @Value("${rabbitmq.queue.name}")
-    private String queue;
+    @Value("${rabbitmq.exchange.created.order.name}")
+    private String exchangeCreatedOrder;
 
-    public FanoutExchange fanoutExchange() {
-        return new FanoutExchange(exchange);
-    }
+    @Value("${rabbitmq.exchange.processed.order.name}")
+    private String exchangeProcessedOrder;
+
+    @Value("${rabbitmq.queue.created.order.name}")
+    private String queueCreatedOrder;
+
+    @Value("${rabbitmq.queue.processed.order.name}")
+    private String queueProcessedOrder;
+
+    //------------------------------------------------------------------------------------------------------------------
+
     @Bean
-    public Queue queue() {
-        return new Queue(queue, true);
+    public FanoutExchange exchangeProcessedOrder() {
+        return new FanoutExchange(exchangeProcessedOrder);
     }
 
     @Bean
-    public Binding binding() {
-        return BindingBuilder.bind(queue()).to(fanoutExchange());
+    public FanoutExchange exchangeCreatedOrder() {
+        return new FanoutExchange(exchangeCreatedOrder);
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    @Bean
+    public Queue queueProcessedOrder() {
+        return new Queue(queueProcessedOrder, true);
+    }
+
+    @Bean
+    public Queue queueCreatedOrder() {
+        return new Queue(queueCreatedOrder, true);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    @Bean
+    public Binding bindingCreatedOrder() {
+        return BindingBuilder.bind(queueCreatedOrder()).to(exchangeCreatedOrder());
+    }
+
+    @Bean
+    public Binding bindingProcessedOrder() {
+        return BindingBuilder.bind(queueProcessedOrder()).to(exchangeProcessedOrder());
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {

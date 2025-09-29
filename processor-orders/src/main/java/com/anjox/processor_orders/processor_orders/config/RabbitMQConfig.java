@@ -1,9 +1,6 @@
 package com.anjox.processor_orders.processor_orders.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,24 +14,36 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
+    //------------------------------------------------------------------------------------------------------------------
 
-    @Value("${rabbitmq.exchange.name}")
-    private String exchange;
-    @Value("${rabbitmq.queue.name}")
-    private String queue;
+    @Value("${rabbitmq.exchange.processed.order.name}")
+    private String exchangeProcessedOrder;
 
-    public FanoutExchange fanoutExchange() {
-        return new FanoutExchange(exchange);
+    @Value("${rabbitmq.exchange.created.order.name}")
+    private String exchangeCreatedOrder;
+
+    @Value("${rabbitmq.queue.created.order.name}")
+    private String queueCreatedOrder;
+
+    //------------------------------------------------------------------------------------------------------------------
+    public FanoutExchange fanoutExchangeCreatedOrder () {
+        return new FanoutExchange(exchangeCreatedOrder);
     }
     @Bean
     public Queue queue() {
-        return new Queue(queue, true);
+        return new Queue(queueCreatedOrder, true);
     }
 
     @Bean
     public Binding binding() {
-        return BindingBuilder.bind(queue()).to(fanoutExchange());
+        return BindingBuilder.bind(queue()).to(fanoutExchangeCreatedOrder());
     }
+    @Bean
+    public Exchange exchange() {
+        return new FanoutExchange(exchangeProcessedOrder);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {

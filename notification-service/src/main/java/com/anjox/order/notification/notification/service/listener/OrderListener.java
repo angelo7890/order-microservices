@@ -16,9 +16,17 @@ public class OrderListener {
         this.mailService = mailService;
     }
 
-    @RabbitListener(queues ="${rabbitmq.queue.name}")
-    public void sendNotification(OrderModel order) {
+    @RabbitListener(queues ="${rabbitmq.queue.created.order.name}")
+    public void sendNotificationCreatedOrder(OrderModel order) {
         mailService.sendNotification(order);
-        logger.info("notificacao gerada: "+ order.toString());
+        logger.info("notificacao de criacao de pedido gerada: "+ order.toString());
     }
+
+
+   @RabbitListener(queues = "${rabbitmq.queue.processed.order.name}")
+   public void sendNotificationProcessedOrder(OrderModel order) {
+        mailService.sendNotification(order);
+        logger.info("notificacao de processamento de pedido gerada: "+ order.toString());
+   }
+
 }

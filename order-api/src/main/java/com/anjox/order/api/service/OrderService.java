@@ -16,7 +16,7 @@ public class OrderService {
     }
     private final Logger log = LoggerFactory.getLogger(OrderService.class);
 
-    @Value("${rabbitmq.exchange.name}")
+    @Value("${rabbitmq.exchange.processed.order.name}")
     private String Exchange;
 
     public OrderModel enqueue(OrderModel orderModel) {
