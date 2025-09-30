@@ -84,7 +84,7 @@ Cada módulo pode ser iniciado individualmente:
 ## 📖 Documentação da API
 A documentação Swagger estará disponível em:  
 
-👉 `http://localhost:8080/swagger-ui.html`  
+👉 `http://localhost:8080/api-docs.html`  
 
 ---
 
