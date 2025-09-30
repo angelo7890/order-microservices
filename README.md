@@ -89,6 +89,5 @@ A documentação Swagger estará disponível em:
 ---
 
 ## 👨‍💻 Autor
-**Angelo Rodrigues**  
-📎 [LinkedIn](https://www.linkedin.com/in/angelo-rodrigues)  
+**Angelo Rodrigues**    
 📎 [GitHub](https://github.com/angelo7890)  
