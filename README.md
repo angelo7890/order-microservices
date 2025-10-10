@@ -1,3 +1,4 @@
+![Badge](https://img.shields.io/badge/status-%20Finalizado-green)
 # 🛒 Order Processing System
 
 Este projeto simula o processamento de pedidos utilizando arquitetura baseada em **microserviços**.  
